@@ -3,6 +3,7 @@ import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { StoreTypes } from './../../store'
 import { ApiTypes } from './../../types/api'
+import { ListWrapper, ListLink } from './styles'
 
 interface Props {
   store: StoreTypes
@@ -11,7 +12,9 @@ interface Props {
 @inject('store')
 @observer
 export class Main extends React.Component<Props> {
-  static defaultProps = { store: {} as StoreTypes }
+  static defaultProps = {
+    store: {} as StoreTypes,
+  }
 
   componentDidMount() {
     const { store } = this.props
@@ -19,15 +22,20 @@ export class Main extends React.Component<Props> {
   }
 
   mapFilmsList = (movies: ApiTypes.Movies) => {
-    if (!movies) return null
-
     const data = toJS(movies)
     const { results } = data
 
     if (results.length) {
-      return results.map((item: ApiTypes.Movie) => {
-        return <div key={item.id}>{item.title}</div>
-      })
+      return (
+        <ListWrapper>
+          {results.map((item: ApiTypes.Movie) => <ListLink
+            to={`/about-film/${item.id}`}
+            key={item.id}>
+            {item.title}
+          </ListLink>)}
+        </ListWrapper>
+      )
+
     } else {
       return <div>Nothing matching</div>
     }

@@ -1,4 +1,4 @@
-import { observable } from 'mobx'
+import { observable, action } from 'mobx'
 import { ApiTypes } from './types/api'
 import { actionAsync, task } from "mobx-utils"
 import { API } from './api'
