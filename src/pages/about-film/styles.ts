@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const AboutWrapper = styled.main`
   width: 60%;
   min-width: 500px;
-  padding: 0;
+  padding: 20px 0;
   margin: auto;
 `
 
