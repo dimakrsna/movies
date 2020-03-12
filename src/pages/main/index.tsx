@@ -1,8 +1,7 @@
 import React from 'react'
 import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
-import { StoreTypes } from './../../store'
-import { ApiTypes } from './../../types/api'
+import { StoreTypes, ApiTypes } from './../../types/index'
 import {
   ListWrapper,
   ListLink,
@@ -54,7 +53,6 @@ export class Main extends React.Component<Props, State> {
       store.searchMovie(inputValue)
     }
   }
-
 
   mapFilmsList = (movies: ApiTypes.Movies) => {
     const data = toJS(movies)

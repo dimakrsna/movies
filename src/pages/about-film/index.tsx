@@ -2,7 +2,7 @@ import React from 'react'
 import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
-import { StoreTypes } from './../../store'
+import { StoreTypes } from './../../types/index'
 import { ApiTypes } from './../../types/api'
 import { Page404 } from './../404'
 import {

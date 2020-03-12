@@ -5,14 +5,6 @@ import { API } from './api'
 import { AxiosResponse } from 'axios'
 import autobind from 'autobind-decorator'
 const createBrowserHistory = require("history").createBrowserHistory
- 
-
-export interface StoreTypes {
-	movies: ApiTypes.Movies | null
-	getMovies: () => void
-	searchMovie: (value: string) => void
-	goBack: () => void
-}
 
 function checkMoviesLocaly(){
 	const moviesLocal = localStorage.getItem('moviesLocal')
