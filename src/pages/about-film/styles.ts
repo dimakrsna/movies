@@ -24,6 +24,6 @@ export const Info = styled.p`
 `
 
 export const Poster = styled.img`
-  max-width: 400px;
+  height: 530px;
   display: block;
 `

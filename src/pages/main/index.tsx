@@ -3,23 +3,58 @@ import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { StoreTypes } from './../../store'
 import { ApiTypes } from './../../types/api'
-import { ListWrapper, ListLink } from './styles'
+import {
+  ListWrapper,
+  ListLink,
+  ListItem,
+  FormWrapper,
+  SearchInput,
+} from './styles'
+import { Button } from './../../common/styles'
 
 interface Props {
   store: StoreTypes
 }
 
+interface State {
+  inputValue: string
+}
+
 @inject('store')
 @observer
-export class Main extends React.Component<Props> {
+export class Main extends React.Component<Props, State> {
   static defaultProps = {
     store: {} as StoreTypes,
   }
 
-  componentDidMount() {
-    const { store } = this.props
-    store.getMovies()
+  state = {
+    inputValue: ''
   }
+
+  componentDidMount() {
+    const { getMovies } = this.props.store
+    getMovies()
+  }
+
+  onValueChanged = (event: React.FormEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget
+
+    this.setState({
+      inputValue: value
+    })
+  }
+
+  onSearchMovie = (event: React.FormEvent) => {
+    event.preventDefault()
+
+    const { inputValue } = this.state
+    const { store } = this.props
+
+    if (inputValue) {
+      store.searchMovie(inputValue)
+    }
+  }
+
 
   mapFilmsList = (movies: ApiTypes.Movies) => {
     const data = toJS(movies)
@@ -28,11 +63,13 @@ export class Main extends React.Component<Props> {
     if (results.length) {
       return (
         <ListWrapper>
-          {results.map((item: ApiTypes.Movie) => <ListLink
-            to={`/about-film/${item.id}`}
-            key={item.id}>
-            {item.title}
-          </ListLink>)}
+          {results.map((item: ApiTypes.Movie) => (
+            <ListItem key={item.id}>
+              <ListLink to={`/about-film/${item.id}`}>
+                {item.title}
+              </ListLink>
+            </ListItem>
+          ))}
         </ListWrapper>
       )
 
@@ -45,7 +82,13 @@ export class Main extends React.Component<Props> {
     const { store } = this.props
 
     return (
-      <>{(store.movies) ? this.mapFilmsList(store.movies) : <div>Nothing matching</div>}</>
+      <>
+        <FormWrapper onSubmit={this.onSearchMovie}>
+          <SearchInput onChange={this.onValueChanged} placeholder="Movie name" />
+          <Button onClick={this.onSearchMovie}>Search</Button>
+        </FormWrapper>
+        {(store.movies) ? this.mapFilmsList(store.movies) : <div>Nothing matching</div>}
+      </>
     )
   }
 }

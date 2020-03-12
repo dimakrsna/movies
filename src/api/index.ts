@@ -11,4 +11,10 @@ export const API = {
       return response
     })
   },
+
+  searchMovie: (value: string) => {
+    return axiosInstance.get(`/3/search/movie?api_key=${token}&query=${value}`).then(response => {
+      return response
+    })
+  },
 }
