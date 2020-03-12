@@ -11,6 +11,7 @@ import {
   Info,
   Poster,
 } from './styles'
+import { Button } from './../../common/styles'
 
 interface Props {
   store: StoreTypes
@@ -51,7 +52,6 @@ export class AboutFilm extends React.PureComponent<Props> {
       overview,
       poster_path,
       popularity,
-      media_type,
     } = currentFilm
 
     return (
@@ -62,6 +62,7 @@ export class AboutFilm extends React.PureComponent<Props> {
         <Info>Release date: {release_date}</Info>
         <Info>language: {original_language}</Info>
         <Info>Popularity: {popularity}</Info>
+        <Button onClick={this.props.store.goBack}>Go back</Button>
       </AboutWrapper>
     )
   }

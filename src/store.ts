@@ -1,12 +1,16 @@
-import { observable, action } from 'mobx'
+import { observable } from 'mobx'
 import { ApiTypes } from './types/api'
 import { actionAsync, task } from "mobx-utils"
 import { API } from './api'
 import { AxiosResponse } from 'axios'
+import autobind from 'autobind-decorator'
+const createBrowserHistory = require("history").createBrowserHistory
+ 
 
 export interface StoreTypes {
 	movies: ApiTypes.Movies | null
 	getMovies: () => void
+	goBack: () => void
 }
 
 class Store {
@@ -22,6 +26,12 @@ class Store {
 		} catch (error) {}
 
 	}
+
+	history = createBrowserHistory()
+
+  @autobind goBack() {
+    this.history.goBack()
+  }
 }
 
 export const store = new Store()
