@@ -1,7 +1,5 @@
 {
 	"homepage": "http://dimakrsna.github.io/movies",
-	"predeploy": "npm run build",
-	"deploy": "gh-pages -d build",
 	"name": "apiko",
 	"version": "0.1.0",
 	"private": true,
@@ -9,7 +7,9 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"lint:fix": "npm run lint -- --fix",
-		"lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'"
+		"lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
 	},
 	"dependencies": {
 		"@babel/plugin-proposal-decorators": "^7.6.0",
