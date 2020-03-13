@@ -6,29 +6,30 @@ import { AxiosResponse } from 'axios'
 import autobind from 'autobind-decorator'
 const createBrowserHistory = require("history").createBrowserHistory
 
-function checkMoviesLocaly() {
-	const moviesLocal = localStorage.getItem('moviesLocal')
-	return moviesLocal ? JSON.parse(moviesLocal) : null
-}
-
 class Store {
 	@observable
-	movies: ApiTypes.Movies | null = checkMoviesLocaly()
+	movies: ApiTypes.Movies | null = null
 
 	@actionAsync
 	async getMovies() {
 		try {
 			const response: AxiosResponse<any> = await task(API.getMovies())
-			localStorage.setItem('moviesLocal', JSON.stringify(response.data))
 			this.movies = response.data
 		} catch (error) { }
 	}
 
+	@observable
+	searchValue: string = ''
+
+	@action
+	onSearchValueChanged = (value: string) => {
+		this.searchValue = value
+	}
+
 	@actionAsync
-	async searchMovie(value: string) {
+	async onMovieSearch(value: string) {
 		try {
-			const response: AxiosResponse<any> = await task(API.searchMovie(value))
-			localStorage.setItem('moviesLocal', JSON.stringify(response.data))
+			const response: AxiosResponse<any> = await task(API.onMovieSearch(value))
 			this.movies = response.data
 		} catch (error) { }
 	}

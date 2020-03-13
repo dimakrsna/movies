@@ -8,6 +8,7 @@ import {
   ListItem,
   FormWrapper,
   SearchInput,
+  EmptyResult,
 } from './styles'
 import { Button } from './../../common/styles'
 
@@ -15,48 +16,35 @@ interface Props {
   store: StoreTypes
 }
 
-interface State {
-  inputValue: string
-}
-
 @inject('store')
 @observer
-export class Main extends React.Component<Props, State> {
+export class Main extends React.Component<Props> {
+  
   static defaultProps = {
     store: {} as StoreTypes,
   }
 
-  state = {
-    inputValue: ''
-  }
-
-  componentDidMount() {
-    const { getMovies } = this.props.store
-    getMovies()
-  }
-
   onValueChanged = (event: React.FormEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget
-
-    this.setState({
-      inputValue: value
-    })
+    const { store } = this.props
+    store.onSearchValueChanged(value)
   }
 
-  onSearchMovie = (event: React.FormEvent) => {
+  ononMovieSearch = (event: React.FormEvent) => {
     event.preventDefault()
 
-    const { inputValue } = this.state
     const { store } = this.props
 
-    if (inputValue) {
-      store.searchMovie(inputValue)
+    if (store.searchValue) {
+      store.onMovieSearch(store.searchValue)
     }
   }
 
-  mapFilmsList = (movies: ApiTypes.Movies) => {
-    const data = toJS(movies)
-    const { results } = data
+  mapFilmsList = () => {
+    const { store } = this.props
+    const data = toJS(store.movies)
+    
+    const results = (data) ? data.results : []
 
     if (results.length) {
       return (
@@ -72,20 +60,28 @@ export class Main extends React.Component<Props, State> {
       )
 
     } else {
-      return <div>Nothing matching</div>
+      return <EmptyResult>Nothing matching</EmptyResult>
     }
+  }
+
+  componentDidMount() {
+    const { store } = this.props
+
+    if(!store.searchValue){
+      store.getMovies()
+    }
+
   }
 
   render() {
     const { store } = this.props
-
     return (
       <>
-        <FormWrapper onSubmit={this.onSearchMovie}>
-          <SearchInput onChange={this.onValueChanged} placeholder="Movie name" />
-          <Button onClick={this.onSearchMovie}>Search</Button>
+        <FormWrapper onSubmit={this.ononMovieSearch}>
+          <SearchInput value={store.searchValue} onChange={this.onValueChanged} placeholder="Movie name" />
+          <Button onClick={this.ononMovieSearch}>Search</Button>
         </FormWrapper>
-        {(store.movies) ? this.mapFilmsList(store.movies) : <div>Nothing matching</div>}
+        {this.mapFilmsList()}
       </>
     )
   }

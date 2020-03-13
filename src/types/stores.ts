@@ -8,8 +8,10 @@ export interface StoreTypes {
 	recomendationMovies: ApiTypes.Movies | null
 	movieDetails: ApiTypes.Movie | null
 	getMovieDetailsStatus: RequestStatus
+	searchValue: string
+	onSearchValueChanged: (value: string) => void
 	getMovies: () => void
-	searchMovie: (value: string) => void
+	onMovieSearch: (value: string) => void
 	getMovieDetails: (id: string) => void
 	goBack: () => void
 	getRecomendationMovies: (id: string) => void

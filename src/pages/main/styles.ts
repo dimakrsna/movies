@@ -24,3 +24,7 @@ export const SearchInput = styled.input`
   outline: none;
   margin-right: 10px;
 `
+
+export const EmptyResult = styled.p`
+  padding: 10px 40px;
+`
