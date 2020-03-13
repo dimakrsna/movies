@@ -19,9 +19,9 @@ interface Props {
   history: any
 }
 
-@inject("routing")
-@inject("store")
-@inject("history")
+@inject('routing')
+@inject('store')
+@inject('history')
 @observer
 class AboutFilm extends React.Component<Props> {
 
@@ -40,12 +40,12 @@ class AboutFilm extends React.Component<Props> {
     store.getMovieDetails(id)
   }
 
-  componentWillReceiveProps(nextProps){
+  componentWillReceiveProps(nextProps: Props) {
     const { store, match } = this.props
     const prevId = match.params.id
     const nextId = nextProps.match.params.id
 
-    if(prevId != nextId){
+    if (prevId != nextId) {
       store.getMovieDetails(nextId)
     }
   }
@@ -73,19 +73,16 @@ class AboutFilm extends React.Component<Props> {
           <Info>language: {original_language}</Info>
           <Info>Popularity: {popularity}</Info>
           <Button onClick={this.props.store.goBack}>Go back</Button>
-          <Button onClick={() => this.props.history.push("/")}>Go to index</Button>
+          <Button onClick={() => this.props.history.push('/')}>Go to index</Button>
           <Recomendations />
         </AboutWrapper>
       )
     }
 
-    if(store.getMovieDetailsStatus === 'PENDING'){
+    if (store.getMovieDetailsStatus === 'PENDING') {
       return null
-    }
-    
-    else return <Page404 />
+    } else return <Page404 />
   }
 }
 
 export default withRouter(AboutFilm)
-

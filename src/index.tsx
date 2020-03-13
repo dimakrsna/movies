@@ -8,10 +8,10 @@ import { ErrorBoundary } from './common/error-boundary'
 import AboutFilm from './pages/about-film'
 import { RouterStore, syncHistoryWithStore } from 'mobx-react-router'
 import { Router, Switch, Route } from 'react-router'
-const createBrowserHistory = require("history").createBrowserHistory
+const createBrowserHistory = require('history').createBrowserHistory
 const browserHistory = createBrowserHistory()
 const routingStore = new RouterStore()
-const history = syncHistoryWithStore(browserHistory, routingStore);
+const history = syncHistoryWithStore(browserHistory, routingStore)
 
 const stores = {
 	store: store,

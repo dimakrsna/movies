@@ -11,8 +11,8 @@ interface Props {
   history: any
 }
 
-@inject("routing")
-@inject("store")
+@inject('routing')
+@inject('store')
 @observer
 class Recomendations extends React.PureComponent<Props> {
 
@@ -25,7 +25,7 @@ class Recomendations extends React.PureComponent<Props> {
     }
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const { store, match } = this.props
     const { id } = match.params
     
@@ -33,7 +33,7 @@ class Recomendations extends React.PureComponent<Props> {
   }
 
   filterList = (recomendationMovies: ApiTypes.Movie[]): ApiTypes.Movie[] => {
-    if(recomendationMovies.length){
+    if (recomendationMovies.length) {
       return recomendationMovies.filter((item, counter: number) => counter < 5)
     } else {
       return []
@@ -64,7 +64,7 @@ class Recomendations extends React.PureComponent<Props> {
     }
   }
 
-  render(){
+  render() {
     const { store } = this.props
     return (
       <>

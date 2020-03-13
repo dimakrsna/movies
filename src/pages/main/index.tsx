@@ -30,7 +30,7 @@ export class Main extends React.Component<Props> {
     store.onSearchValueChanged(value)
   }
 
-  ononMovieSearch = (event: React.FormEvent) => {
+  onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
     const { store } = this.props
@@ -67,7 +67,7 @@ export class Main extends React.Component<Props> {
   componentDidMount() {
     const { store } = this.props
 
-    if(!store.searchValue){
+    if (!store.searchValue) {
       store.getMovies()
     }
 
@@ -77,9 +77,9 @@ export class Main extends React.Component<Props> {
     const { store } = this.props
     return (
       <>
-        <FormWrapper onSubmit={this.ononMovieSearch}>
+        <FormWrapper onSubmit={this.onFormSubmit}>
           <SearchInput value={store.searchValue} onChange={this.onValueChanged} placeholder="Movie name" />
-          <Button onClick={this.ononMovieSearch}>Search</Button>
+          <Button onClick={this.onFormSubmit}>Search</Button>
         </FormWrapper>
         {this.mapFilmsList()}
       </>

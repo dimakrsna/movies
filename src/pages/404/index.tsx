@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from "react-router-dom"
+import { useHistory } from 'react-router-dom'
 import {
   PageWrapper,
   Title,
@@ -14,7 +14,7 @@ export const Page404 = () => {
     <PageWrapper>
       <Title>404</Title>
       <Description>Sorry, such page does not exist</Description>
-      <Button onClick={() => history.push("/")}>Go to index</Button>
+      <Button onClick={() => history.push('/')}>Go to index</Button>
     </PageWrapper>
   )
 }
