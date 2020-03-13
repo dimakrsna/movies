@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { StoreTypes } from './../../types/index'
 import { ApiTypes } from './../../types/api'
 import { Page404 } from './../404'
+import Recomendations from './recomendations'
 import {
   Title,
   AboutWrapper,
@@ -23,7 +24,7 @@ interface Props {
 @inject("routing")
 @inject("store")
 @observer
-export class AboutFilm extends React.PureComponent<Props> {
+class AboutFilm extends React.Component<Props> {
 
   static defaultProps = {
     store: {} as StoreTypes,
@@ -40,10 +41,6 @@ export class AboutFilm extends React.PureComponent<Props> {
     if (!store.movies) {
       store.getMovies()
     }
-  }
-
-  checkCurrentFilm = (results: ApiTypes.Movie[], id: number): boolean => {
-    return results.some((item: ApiTypes.Movie) => item.id == id)
   }
 
   filterCurrentFilm = (movies: ApiTypes.Movies, id: number) => {
@@ -70,6 +67,7 @@ export class AboutFilm extends React.PureComponent<Props> {
           <Info>language: {original_language}</Info>
           <Info>Popularity: {popularity}</Info>
           <Button onClick={this.props.store.goBack}>Go back</Button>
+          <Recomendations />
         </AboutWrapper>
       )
     } else {

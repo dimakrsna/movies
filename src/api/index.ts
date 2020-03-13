@@ -17,4 +17,10 @@ export const API = {
       return response
     })
   },
+
+  getRecommendations: (id: string) => {
+    return axiosInstance.get(`/3/movie/${id}/recommendations?api_key=${token}`).then(response => {
+      return response
+    })
+  },
 }
