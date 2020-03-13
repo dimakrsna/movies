@@ -1,0 +1,11 @@
+{
+  "main.js": "/movies/static/js/main.3b688b31.chunk.js",
+  "main.js.map": "/movies/static/js/main.3b688b31.chunk.js.map",
+  "runtime~main.js": "/movies/static/js/runtime~main.712e9881.js",
+  "runtime~main.js.map": "/movies/static/js/runtime~main.712e9881.js.map",
+  "static/js/2.bbff1c93.chunk.js": "/movies/static/js/2.bbff1c93.chunk.js",
+  "static/js/2.bbff1c93.chunk.js.map": "/movies/static/js/2.bbff1c93.chunk.js.map",
+  "index.html": "/movies/index.html",
+  "precache-manifest.647d927aff8cd764bdc4f9be4590d0ff.js": "/movies/precache-manifest.647d927aff8cd764bdc4f9be4590d0ff.js",
+  "service-worker.js": "/movies/service-worker.js"
+}
