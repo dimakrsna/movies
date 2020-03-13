@@ -27,3 +27,6 @@ export const Poster = styled.img`
   height: 530px;
   display: block;
 `
+
+
+

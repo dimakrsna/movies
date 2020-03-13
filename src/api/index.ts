@@ -11,6 +11,12 @@ export const API = {
       return response
     })
   },
+  
+  getMovieDetails: (id: string) => {
+    return axiosInstance.get(`/3/movie/${id}?api_key=${token}`).then(response => {
+      return response
+    })
+  },
 
   searchMovie: (value: string) => {
     return axiosInstance.get(`/3/search/movie?api_key=${token}&query=${value}`).then(response => {

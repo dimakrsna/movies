@@ -1,5 +1,5 @@
-import { observable } from 'mobx'
-import { ApiTypes } from './types/api'
+import { observable, action } from 'mobx'
+import { ApiTypes, RequestStatus } from './types'
 import { actionAsync, task } from "mobx-utils"
 import { API } from './api'
 import { AxiosResponse } from 'axios'
@@ -9,11 +9,6 @@ const createBrowserHistory = require("history").createBrowserHistory
 function checkMoviesLocaly() {
 	const moviesLocal = localStorage.getItem('moviesLocal')
 	return moviesLocal ? JSON.parse(moviesLocal) : null
-}
-
-function checkRecomendationMoviesLocaly() {
-	const recomendationMoviesLocal = localStorage.getItem('recomendationMoviesLocal')
-	return recomendationMoviesLocal ? JSON.parse(recomendationMoviesLocal) : null
 }
 
 class Store {
@@ -38,19 +33,39 @@ class Store {
 		} catch (error) { }
 	}
 
+	@observable
+	movieDetails: ApiTypes.Movie | null = null
+
+	@observable
+	getMovieDetailsStatus: RequestStatus = ''
+
+	@actionAsync
+	async getMovieDetails(id: string) {
+		try {
+			this.getMovieDetailsStatus = 'PENDING'
+			const response: AxiosResponse<any> = await task(API.getMovieDetails(id))
+			if(response.data){
+				this.movieDetails = response.data
+				this.getMovieDetailsStatus = 'SUCCESS'
+			}
+			
+		} catch (error) { 
+			this.getMovieDetailsStatus = 'ERROR'
+		}
+	}
+
 	history = createBrowserHistory()
 	@autobind goBack() {
 		this.history.goBack()
 	}
 
 	@observable
-	recomendationMovies: ApiTypes.Movies | null = checkRecomendationMoviesLocaly()
+	recomendationMovies: ApiTypes.Movies | null = null
 
 	@actionAsync
 	async getRecomendationMovies(id: string) {
 		try {
 			const response: AxiosResponse<any> = await task(API.getRecommendations(id))
-			localStorage.setItem('recomendationMoviesLocal', JSON.stringify(response.data))
 			this.recomendationMovies = response.data
 		} catch (error) { }
 	}

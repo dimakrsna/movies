@@ -1,9 +1,7 @@
 import React from 'react'
-import { toJS } from 'mobx'
 import { observer, inject } from 'mobx-react'
 import { withRouter } from 'react-router-dom'
 import { StoreTypes } from './../../types/index'
-import { ApiTypes } from './../../types/api'
 import { Page404 } from './../404'
 import Recomendations from './recomendations'
 import {
@@ -23,6 +21,7 @@ interface Props {
 
 @inject("routing")
 @inject("store")
+@inject("history")
 @observer
 class AboutFilm extends React.Component<Props> {
 
@@ -36,19 +35,26 @@ class AboutFilm extends React.Component<Props> {
   }
 
   componentDidMount() {
-    const { store } = this.props
+    const { store, match } = this.props
+    const { id } = match.params
+    store.getMovieDetails(id)
+  }
 
-    if (!store.movies) {
-      store.getMovies()
+  componentWillReceiveProps(nextProps){
+    const { store, match } = this.props
+    const prevId = match.params.id
+    const nextId = nextProps.match.params.id
+
+    if(prevId != nextId){
+      store.getMovieDetails(nextId)
     }
   }
 
-  filterCurrentFilm = (movies: ApiTypes.Movies, id: number) => {
-    const data = toJS(movies)
-    const { results } = data
-    const currentFilm = results.filter((item: ApiTypes.Movie) => item.id == id)[0]
+  render() {
+    const { store } = this.props
 
-    if(currentFilm){
+    if (store.movieDetails) {
+
       const {
         title,
         release_date,
@@ -56,8 +62,8 @@ class AboutFilm extends React.Component<Props> {
         overview,
         poster_path,
         popularity,
-      } = currentFilm
-  
+      } = store.movieDetails
+
       return (
         <AboutWrapper>
           {poster_path && <Poster src={`https://image.tmdb.org/t/p/w500/${poster_path}`} />}
@@ -67,24 +73,17 @@ class AboutFilm extends React.Component<Props> {
           <Info>language: {original_language}</Info>
           <Info>Popularity: {popularity}</Info>
           <Button onClick={this.props.store.goBack}>Go back</Button>
+          <Button onClick={() => this.props.history.push("/")}>Go to index</Button>
           <Recomendations />
         </AboutWrapper>
       )
-    } else {
-      return <Page404/>
     }
-  }
 
-  render() {
-    const { store, match } = this.props
-    const { id } = match.params
-
-    if (store.movies) {
-      return <>{this.filterCurrentFilm(store.movies, id)}</>
-    } else {
+    if(store.getMovieDetailsStatus === 'PENDING'){
       return null
     }
-
+    
+    else return <Page404 />
   }
 }
 

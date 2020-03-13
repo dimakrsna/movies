@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const Button = styled.span`
   display: inline-block;
   height: 30px;
+  margin-right: 10px;
   line-height: 30px;
   padding: 0 10px;
   margin-top: 10px;

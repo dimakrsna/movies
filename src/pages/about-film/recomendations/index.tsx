@@ -66,14 +66,12 @@ class Recomendations extends React.PureComponent<Props> {
 
   render(){
     const { store } = this.props
-    if(store.recomendationMovies){
-      return (
-        <>
-          <h3>Recomendations:</h3>
-          {this.mapRecomedations(store.recomendationMovies)}
-        </>
-      )
-    }
+    return (
+      <>
+        <h3>Recomendations:</h3>
+        {store.recomendationMovies && this.mapRecomedations(store.recomendationMovies)}
+      </>
+    )
   }
 }
 
